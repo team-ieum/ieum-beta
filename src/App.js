@@ -47,7 +47,7 @@ const PAIN_POINTS = [
   {
     emoji: '⚙️',
     title: '자동화 도구가 너무 복잡해요',
-    desc: 'Zapier, n8n, Make... 설정 UI를 익히는 데만 몇 시간이 걸립니다.',
+    desc: '설정 UI를 익히는 데만 몇 시간이 걸립니다.',
   },
   {
     emoji: '👨‍💻',
