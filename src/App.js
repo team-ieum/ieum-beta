@@ -80,8 +80,8 @@ const FEATURES = [
 ];
 
 const COMPARISONS = [
-  { vs: 'Zapier / Make', them: '복잡한 UI에서 트리거·액션을 직접 설정', us: '말로 설명하면 AI가 구성' },
-  { vs: 'n8n', them: '직접 서버를 설치하고 유지보수', us: '설치 없이 즉시 사용' },
+  { vs: '타 글로벌 자동화 툴', them: '복잡한 UI에서 트리거·액션을 직접 설정', us: '말로 설명하면 AI가 구성' },
+  { vs: '타 오픈소스 솔루션', them: '직접 서버를 설치하고 유지보수', us: '설치 없이 즉시 사용' },
   { vs: '직접 개발', them: '수십 줄 코드 + 지속적인 유지보수', us: '한 문장으로 완성, 수정도 말로' },
 ];
 
@@ -426,8 +426,7 @@ function EmailCta({ selectedPlan }) {
 
           {step === 'done' ? (
             <div>
-              <p className="m-0 text-4xl">🙏</p>
-              <h2 className="m-0 mt-4 text-2xl font-bold">감사합니다!</h2>
+              <h2 className="m-0 text-2xl font-bold">감사합니다!</h2>
               <p className="m-0 mt-2 text-sm text-light-blue">남겨주신 의견을 소중히 반영해 더 좋은 서비스로 찾아뵙겠습니다.</p>
             </div>
           ) : step === 'survey' ? (
