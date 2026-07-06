@@ -39,39 +39,36 @@ const INTEGRATIONS = [
   { name: 'Linear', icon: linear },
 ];
 
-const PAIN_POINTS = [
-  {
-    emoji: '⚙️',
-    title: '자동화 도구가 너무 복잡해요',
-    desc: '설정 UI를 익히는 데만 몇 시간이 걸립니다.',
-  },
-  {
-    emoji: '👨‍💻',
-    title: '결국 개발자에게 맡겨야 해요',
-    desc: '조금만 복잡해지면 코딩 없이는 불가능합니다.',
-  },
-  {
-    emoji: '🔄',
-    title: '서비스마다 따로 설정해야 해요',
-    desc: 'Slack은 여기서, Notion은 저기서. 연동할 때마다 새로 배워야 합니다.',
-  },
-];
-
 const FEATURES = [
   {
     icon: MessageSquare,
-    title: '자연어로 워크플로우 생성',
-    desc: '"슬랙 DM 오면 팀 채널에 요약 올려줘"라고 입력하면 AI가 즉시 워크플로우를 구성합니다.',
+    title: '한 문장으로 워크플로우 완성',
+    desc: '"GitHub PR 머지되면 팀 슬랙에 알려줘" — 이 한 줄이 전부입니다. AI가 의도를 파악해 즉시 구성합니다.',
   },
   {
     icon: Link2,
-    title: '주요 서비스 원클릭 연동',
-    desc: 'Slack, GitHub, Notion, Gmail, Discord를 OAuth 한 번으로 바로 연결합니다.',
+    title: '쓰던 서비스 그대로 연결',
+    desc: 'Slack, Notion, Gmail, GitHub 등 이미 쓰고 있는 서비스를 OAuth 한 번으로 바로 연결합니다.',
   },
   {
     icon: BarChart3,
-    title: '실행 현황 실시간 모니터링',
-    desc: '성공률, 실행 횟수, 오류 내역을 한 화면에서 파악합니다.',
+    title: '실행 현황을 한눈에',
+    desc: '성공·실패·실행 횟수를 실시간으로 확인합니다. 문제가 생기면 즉시 알림을 드립니다.',
+  },
+];
+
+const WHY_ITEMS = [
+  {
+    title: '코드 없이 누구나',
+    desc: '개발자가 아니어도 됩니다. Notion 쓰듯이 하고 싶은 자동화를 설명하면 AI가 나머지를 처리합니다.',
+  },
+  {
+    title: '배울 게 없어요',
+    desc: '복잡한 설정 UI가 없습니다. 익숙한 말로 설명하는 것만으로 충분합니다.',
+  },
+  {
+    title: '오늘 바로 시작',
+    desc: '설치 없이 브라우저에서 즉시 사용합니다. OAuth 연동 한 번으로 모든 서비스가 연결됩니다.',
   },
 ];
 
@@ -196,22 +193,46 @@ function Hero() {
 
 /* ─── Pain Points ───────────────────────────────────────── */
 function PainPoints() {
+  const steps = [
+    { time: '09:00', text: '슬랙 메시지 확인하고 중요 내용 메모장에 복사' },
+    { time: '09:10', text: 'Notion 열어서 팀 페이지에 내용 직접 붙여넣기' },
+    { time: '09:18', text: '팀 채널에 요약 메시지 따로 작성해서 전송' },
+    { time: '09:25', text: 'GitHub에 관련 이슈 직접 생성' },
+  ];
   return (
     <section className="border-t border-neutral-100 bg-neutral-50 py-20">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <div className="mb-12 text-center">
-          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Pain Points</p>
-          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">매번 같은 문제를 겪고 계신가요?</h2>
-          <p className="m-0 mt-3 text-sm text-neutral-600">반복 업무 자동화, 생각보다 훨씬 어렵습니다.</p>
+          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">매일 아침</p>
+          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">이 일, 아직도 직접 하고 계신가요?</h2>
+          <p className="m-0 mt-3 text-sm text-neutral-600">반복 업무에 쓰는 시간이 매일 조금씩 쌓이고 있습니다.</p>
         </div>
-        <div className="grid gap-5 sm:grid-cols-3">
-          {PAIN_POINTS.map(({ emoji, title, desc }) => (
-            <div key={title} className="rounded-2xl border border-neutral-200 bg-white p-6 text-center shadow-sm">
-              <span className="text-3xl">{emoji}</span>
-              <h3 className="m-0 mt-4 text-base font-semibold text-neutral-900">{title}</h3>
-              <p className="m-0 mt-2 text-sm text-neutral-500">{desc}</p>
+        <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
+          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+            <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400">지금은</p>
+            <div className="space-y-3">
+              {steps.map(({ time, text }) => (
+                <div key={time} className="flex items-start gap-3">
+                  <span className="shrink-0 rounded-lg bg-neutral-100 px-2 py-1 text-xs font-semibold tabular-nums text-neutral-500">{time}</span>
+                  <p className="m-0 text-sm text-neutral-600">{text}</p>
+                </div>
+              ))}
+              <div className="mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-2.5">
+                <p className="m-0 text-xs font-semibold text-red-500">매일 약 30분 소요 · 실수 발생 가능 · 빠뜨리는 경우 있음</p>
+              </div>
             </div>
-          ))}
+          </div>
+          <div className="rounded-2xl border border-main-blue/30 bg-gradient-to-br from-light-blue/40 to-white p-6">
+            <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-main-blue">IEUM을 쓰면</p>
+            <div className="mb-3 rounded-xl border border-neutral-200 bg-white px-4 py-3">
+              <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
+              <p className="m-0 mt-1 text-sm text-neutral-800">"슬랙 DM 오면 Notion에 정리하고 팀 채널에 요약 올려줘"</p>
+            </div>
+            <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5">
+              <CheckCircle2 size={14} className="shrink-0 text-green-600" />
+              <p className="m-0 text-xs font-semibold text-green-700">자동 실행 중 · 매일 0분 소요</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -224,9 +245,9 @@ function Features() {
     <section id="features" className="border-t border-neutral-100 bg-white py-20">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <div className="mb-12 max-w-2xl">
-          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Features</p>
-          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">자연어 하나로 모든 게 연결됩니다</h2>
-          <p className="m-0 mt-3 text-sm text-neutral-600">AI가 의도를 파악하고 워크플로우를 자동으로 구성합니다.</p>
+          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">How it works</p>
+          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">세 가지만 기억하세요</h2>
+          <p className="m-0 mt-3 text-sm text-neutral-600">나머지는 AI가 합니다.</p>
         </div>
         <div className="grid gap-5 sm:grid-cols-3">
           {FEATURES.map(({ icon: Icon, title, desc }) => (
@@ -241,21 +262,47 @@ function Features() {
             </article>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* 연동 서비스 마퀴 */}
-        <div className="mt-16 overflow-hidden rounded-2xl bg-deep-blue py-10 text-center">
+/* ─── Why ───────────────────────────────────────────────── */
+function Why() {
+  return (
+    <section className="border-t border-neutral-100 bg-neutral-50 py-20">
+      <div className="mx-auto max-w-6xl px-5 lg:px-8">
+        <div className="mb-12 text-center">
+          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Why IEUM</p>
+          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">기존 자동화 툴과 다른 이유</h2>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-3">
+          {WHY_ITEMS.map(({ title, desc }) => (
+            <div key={title} className="rounded-2xl border border-neutral-200 bg-white p-6">
+              <h3 className="m-0 text-base font-semibold text-neutral-900">{title}</h3>
+              <p className="m-0 mt-2 text-sm text-neutral-500">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Integrations ───────────────────────────────────────── */
+function Integrations() {
+  return (
+    <section className="border-t border-neutral-100 bg-white py-16">
+      <div className="mx-auto max-w-6xl px-5 lg:px-8">
+        <div className="overflow-hidden rounded-2xl bg-deep-blue py-10 text-center">
           <h3 className="m-0 text-lg font-semibold text-white">자주 쓰는 도구와 바로 연결</h3>
           <p className="m-0 mt-1 text-sm text-light-blue">더 많은 연동이 계속 추가됩니다.</p>
           <div className="relative mt-6 overflow-hidden">
-            {/* 좌우 페이드 마스크 */}
             <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-deep-blue to-transparent" />
             <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-deep-blue to-transparent" />
             <div className="marquee-track">
               {[...INTEGRATIONS, ...INTEGRATIONS].map(({ name, icon }, i) => (
-                <div
-                  key={i}
-                  className="mx-2 flex shrink-0 items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5"
-                >
+                <div key={i} className="mx-2 flex shrink-0 items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5">
                   <img src={icon} alt="" className="h-7 w-7 object-contain" />
                   <span className="text-sm font-semibold text-white">{name}</span>
                 </div>
@@ -483,6 +530,8 @@ export default function App() {
         <Hero />
         <PainPoints />
         <Features />
+        <Why />
+        <Integrations />
         <EmailCta />
       </main>
       <Footer />
