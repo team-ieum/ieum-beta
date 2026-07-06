@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ArrowDown, MessageSquare, Link2, BarChart3, Zap, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowDown, AlertCircle, MessageSquare, Link2, BarChart3, Zap, CheckCircle2 } from 'lucide-react';
 import './App.css';
 import symbol from './assets/symbol.png';
 import slack from './assets/serviceIcon/slack.png';
@@ -221,130 +221,211 @@ function Hero() {
   );
 }
 
-/* ─── Pain Points ───────────────────────────────────────── */
-function PainPoints() {
-  const steps = [
+/* ─── Flow node box ──────────────────────────────────────── */
+function FlowNodeBox({ step, label, sublabel, icon: Icon, headerBg = '#29537c' }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+      <div className="flex items-center gap-2.5 px-4 py-3" style={{ background: headerBg }}>
+        {Icon && (
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/20">
+            <Icon size={16} className="text-white" />
+          </span>
+        )}
+        <span className="text-sm font-bold text-white">{step}</span>
+      </div>
+      <div className="px-4 py-4">
+        <p className="m-0 text-sm font-semibold leading-snug text-deep-blue">{label}</p>
+        {sublabel && <p className="m-0 mt-1.5 text-xs text-neutral-500">{sublabel}</p>}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Flow section ───────────────────────────────────────── */
+function FlowSection() {
+  const sectionRef = useRef(null);
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const ref3 = useRef(null);
+  const row1Ref = useRef(null);
+  const row2Ref = useRef(null);
+  const row3Ref = useRef(null);
+  const [lines, setLines] = useState([]);
+
+  useEffect(() => {
+    function measure() {
+      const section = sectionRef.current;
+      if (!section || !ref1.current || !ref2.current || !ref3.current) return;
+      if (!row1Ref.current || !row2Ref.current || !row3Ref.current) return;
+      const sR = section.getBoundingClientRect();
+      const nR = [ref1, ref2, ref3].map(r => r.current.getBoundingClientRect());
+      const rR = [row1Ref, row2Ref, row3Ref].map(r => r.current.getBoundingClientRect());
+      // 수평 꺾임을 row 사이 빈 갭의 중간점으로 라우팅 (콘텐츠 박스를 통과하지 않음)
+      setLines([
+        {
+          x1: nR[0].left + nR[0].width / 2 - sR.left,
+          y1: nR[0].bottom - sR.top,
+          gapY: (rR[0].bottom + rR[1].top) / 2 - sR.top,
+          x2: nR[1].left + nR[1].width / 2 - sR.left,
+          y2: nR[1].top - sR.top,
+        },
+        {
+          x1: nR[1].left + nR[1].width / 2 - sR.left,
+          y1: nR[1].bottom - sR.top,
+          gapY: (rR[1].bottom + rR[2].top) / 2 - sR.top,
+          x2: nR[2].left + nR[2].width / 2 - sR.left,
+          y2: nR[2].top - sR.top,
+        },
+      ]);
+    }
+    measure();
+    const t = setTimeout(measure, 120);
+    window.addEventListener('resize', measure);
+    return () => { clearTimeout(t); window.removeEventListener('resize', measure); };
+  }, []);
+
+  const morningSteps = [
     { time: '09:00', text: '슬랙 메시지 확인하고 중요 내용 메모장에 복사' },
     { time: '09:10', text: 'Notion 열어서 팀 페이지에 내용 직접 붙여넣기' },
     { time: '09:18', text: '팀 채널에 요약 메시지 따로 작성해서 전송' },
     { time: '09:25', text: 'GitHub에 관련 이슈 직접 생성' },
   ];
+
   return (
-    <section className="border-t border-neutral-100 bg-neutral-50 py-20">
-      <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <FadeIn>
-          <div className="mb-12 text-center">
-            <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">매일 아침</p>
-            <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">이 일, 아직도 직접 하고 계신가요?</h2>
-            <p className="m-0 mt-3 text-sm text-neutral-600">반복 업무에 쓰는 시간이 매일 조금씩 쌓이고 있습니다.</p>
+    <section ref={sectionRef} id="features" className="relative border-t border-neutral-100 bg-white py-20">
+
+      {/* SVG overlay — DOM 위치를 측정해 노드끼리 직접 연결 */}
+      <svg className="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible lg:block" aria-hidden="true">
+        <defs>
+          <marker id="arr-flow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#007ba7" />
+          </marker>
+        </defs>
+        {lines.map(({ x1, y1, gapY, x2, y2 }, i) => (
+          <path
+            key={i}
+            d={`M ${x1} ${y1} L ${x1} ${gapY} L ${x2} ${gapY} L ${x2} ${y2}`}
+            fill="none"
+            stroke="#007ba7"
+            strokeWidth="2"
+            strokeDasharray="8 5"
+            markerEnd="url(#arr-flow)"
+          />
+        ))}
+      </svg>
+
+      <div className="mx-auto max-w-5xl px-5 lg:px-8">
+
+        {/* ── Step 1: Pain Point (노드 왼쪽) ── */}
+        <div ref={row1Ref} className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
+          <div ref={ref1} className="shrink-0 lg:w-60">
+            <FlowNodeBox
+              step="Pain Point"
+              label="매일 아침 반복되는 업무, 지겹지 않으신가요?"
+              sublabel="자동화하려 해도 도구가 너무 복잡합니다."
+              icon={AlertCircle}
+              headerBg="#4f5d75"
+            />
           </div>
-        </FadeIn>
-        <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
-          <FadeIn delay={0}>
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6">
-              <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400">지금은</p>
-              <div className="space-y-3">
-                {steps.map(({ time, text }) => (
-                  <div key={time} className="flex items-start gap-3">
-                    <span className="shrink-0 rounded-lg bg-neutral-100 px-2 py-1 text-xs font-semibold tabular-nums text-neutral-500">{time}</span>
-                    <p className="m-0 text-sm text-neutral-600">{text}</p>
+          <FadeIn className="flex-1">
+            <div className="space-y-3">
+              <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
+                <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400">지금은</p>
+                <div className="space-y-2.5">
+                  {morningSteps.map(({ time, text }) => (
+                    <div key={time} className="flex items-start gap-3">
+                      <span className="shrink-0 rounded-md bg-white px-2 py-0.5 text-xs font-semibold tabular-nums text-neutral-500 shadow-sm ring-1 ring-neutral-200">{time}</span>
+                      <p className="m-0 text-sm text-neutral-600">{text}</p>
+                    </div>
+                  ))}
+                  <div className="mt-2 rounded-xl border border-red-100 bg-red-50 px-4 py-2">
+                    <p className="m-0 text-xs font-semibold text-red-500">매일 약 30분 소요 · 실수 가능 · 빠뜨리는 경우 있음</p>
                   </div>
-                ))}
-                <div className="mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-2.5">
-                  <p className="m-0 text-xs font-semibold text-red-500">매일 약 30분 소요 · 실수 발생 가능 · 빠뜨리는 경우 있음</p>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-main-blue/20 bg-light-blue/30 p-5">
+                <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-main-blue">IEUM을 쓰면</p>
+                <div className="mb-3 rounded-xl border border-neutral-200 bg-white px-4 py-3">
+                  <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
+                  <p className="m-0 mt-1 text-sm text-neutral-800">"슬랙 DM 오면 Notion에 정리하고 팀 채널에 요약 올려줘"</p>
+                </div>
+                <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5">
+                  <CheckCircle2 size={14} className="shrink-0 text-green-600" />
+                  <p className="m-0 text-xs font-semibold text-green-700">자동 실행 중 · 매일 0분 소요</p>
                 </div>
               </div>
             </div>
           </FadeIn>
-          <FadeIn delay={150}>
-            <div className="rounded-2xl border border-main-blue/30 bg-gradient-to-br from-light-blue/40 to-white p-6">
-              <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-main-blue">IEUM을 쓰면</p>
-              <div className="mb-3 rounded-xl border border-neutral-200 bg-white px-4 py-3">
-                <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
-                <p className="m-0 mt-1 text-sm text-neutral-800">"슬랙 DM 오면 Notion에 정리하고 팀 채널에 요약 올려줘"</p>
-              </div>
-              <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5">
-                <CheckCircle2 size={14} className="shrink-0 text-green-600" />
-                <p className="m-0 text-xs font-semibold text-green-700">자동 실행 중 · 매일 0분 소요</p>
-              </div>
-            </div>
-          </FadeIn>
         </div>
-      </div>
-    </section>
-  );
-}
 
-/* ─── Features ──────────────────────────────────────────── */
-function Features() {
-  return (
-    <section id="features" className="border-t border-neutral-100 bg-white py-20">
-      <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <FadeIn>
-          <div className="mb-12 max-w-2xl">
-            <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">How it works</p>
-            <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">세 가지만 기억하세요</h2>
-            <p className="m-0 mt-3 text-sm text-neutral-600">나머지는 AI가 합니다.</p>
+        {/* 모바일 연결선 1 */}
+        <div className="flex justify-center py-1 lg:hidden">
+          <div className="h-10 border-l-2 border-dashed border-main-blue" />
+        </div>
+        {/* 데스크탑 gap 공간 (SVG gapY 측정용) */}
+        <div className="hidden h-16 lg:block" />
+
+        {/* ── Step 2: How (노드 오른쪽) ── */}
+        <div ref={row2Ref} className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start lg:gap-10">
+          <div ref={ref2} className="shrink-0 lg:w-60">
+            <FlowNodeBox
+              step="How"
+              label="한 문장이면 충분합니다"
+              sublabel="AI가 의도를 파악해 워크플로우를 즉시 구성합니다."
+              icon={MessageSquare}
+              headerBg="#007ba7"
+            />
           </div>
-        </FadeIn>
-
-        {/* 노드 + 화살표 레이아웃 */}
-        <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-0">
-          {FEATURES.flatMap(({ icon: Icon, title, desc }, i) => {
-            const card = (
-              <FadeIn key={title} delay={i * 120} className="w-full sm:flex-1 sm:min-w-0">
-                <article className="flex h-full flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-6 transition-shadow hover:shadow-md">
-                  <div className="flex items-center gap-3">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-light-blue text-main-blue">
-                      <Icon size={22} />
-                    </span>
-                    <span className="select-none text-3xl font-bold text-neutral-100 tabular-nums">
-                      0{i + 1}
+          <FadeIn className="flex-1">
+            <div className="space-y-3">
+              {FEATURES.map(({ icon: Icon, title, desc }, i) => (
+                <div key={title} className="flex items-start gap-4 rounded-2xl border border-neutral-200 bg-white p-5">
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span className="select-none text-xl font-bold text-neutral-200 tabular-nums">0{i + 1}</span>
+                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-light-blue text-main-blue">
+                      <Icon size={20} />
                     </span>
                   </div>
                   <div>
-                    <h3 className="m-0 text-base font-semibold text-neutral-900">{title}</h3>
-                    <p className="m-0 mt-1.5 text-sm text-neutral-500">{desc}</p>
+                    <h3 className="m-0 text-sm font-semibold text-neutral-900">{title}</h3>
+                    <p className="m-0 mt-1 text-sm text-neutral-500">{desc}</p>
                   </div>
-                </article>
-              </FadeIn>
-            );
-            if (i === 0) return [card];
-            return [
-              <div key={`arrow-${i}`} className="flex shrink-0 items-center justify-center sm:px-2 sm:pt-10">
-                <ArrowDown size={18} className="text-neutral-300 sm:hidden" />
-                <ArrowRight size={18} className="hidden text-neutral-300 sm:block" />
-              </div>,
-              card,
-            ];
-          })}
+                </div>
+              ))}
+            </div>
+          </FadeIn>
         </div>
-      </div>
-    </section>
-  );
-}
 
-/* ─── Why ───────────────────────────────────────────────── */
-function Why() {
-  return (
-    <section className="border-t border-neutral-100 bg-neutral-50 py-20">
-      <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <FadeIn>
-          <div className="mb-12 text-center">
-            <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Why IEUM</p>
-            <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">기존 자동화 툴과 다른 이유</h2>
-          </div>
-        </FadeIn>
-        <div className="grid gap-5 sm:grid-cols-3">
-          {WHY_ITEMS.map(({ title, desc }, i) => (
-            <FadeIn key={title} delay={i * 100}>
-              <div className="h-full rounded-2xl border border-neutral-200 bg-white p-6">
-                <h3 className="m-0 text-base font-semibold text-neutral-900">{title}</h3>
-                <p className="m-0 mt-2 text-sm text-neutral-500">{desc}</p>
-              </div>
-            </FadeIn>
-          ))}
+        {/* 모바일 연결선 2 */}
+        <div className="flex justify-center py-1 lg:hidden">
+          <div className="h-10 border-l-2 border-dashed border-main-blue" />
         </div>
+        {/* 데스크탑 gap 공간 (SVG gapY 측정용) */}
+        <div className="hidden h-16 lg:block" />
+
+        {/* ── Step 3: Why (노드 왼쪽) ── */}
+        <div ref={row3Ref} className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
+          <div ref={ref3} className="shrink-0 lg:w-60">
+            <FlowNodeBox
+              step="Why IEUM"
+              label="기존 자동화 툴과 무엇이 다른가요?"
+              sublabel="배울 것도, 설치할 것도 없습니다."
+              icon={CheckCircle2}
+              headerBg="#29537c"
+            />
+          </div>
+          <FadeIn className="flex-1">
+            <div className="space-y-3">
+              {WHY_ITEMS.map(({ title, desc }) => (
+                <div key={title} className="rounded-2xl border border-neutral-200 bg-white p-5">
+                  <h3 className="m-0 text-sm font-semibold text-neutral-900">{title}</h3>
+                  <p className="m-0 mt-1 text-sm text-neutral-500">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+
       </div>
     </section>
   );
@@ -355,17 +436,17 @@ function Integrations() {
   return (
     <section className="border-t border-neutral-100 bg-white py-16">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="overflow-hidden rounded-2xl bg-deep-blue py-10 text-center">
-          <h3 className="m-0 text-lg font-semibold text-white">자주 쓰는 도구와 바로 연결</h3>
-          <p className="m-0 mt-1 text-sm text-light-blue">더 많은 연동이 계속 추가됩니다.</p>
+        <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-light-blue/60 to-light-blue/20 py-10 text-center">
+          <h3 className="m-0 text-lg font-semibold text-deep-blue">자주 쓰는 도구와 바로 연결</h3>
+          <p className="m-0 mt-1 text-sm text-main-blue">더 많은 연동이 계속 추가됩니다.</p>
           <div className="relative mt-6 overflow-hidden">
-            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-deep-blue to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-deep-blue to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-light-blue/60 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-light-blue/20 to-transparent" />
             <div className="marquee-track">
               {[...INTEGRATIONS, ...INTEGRATIONS].map(({ name, icon }, i) => (
-                <div key={i} className="mx-2 flex shrink-0 items-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5">
+                <div key={i} className="mx-2 flex shrink-0 items-center gap-2.5 rounded-xl border border-main-blue/15 bg-white/70 px-4 py-2.5">
                   <img src={icon} alt="" className="h-7 w-7 object-contain" />
-                  <span className="text-sm font-semibold text-white">{name}</span>
+                  <span className="text-sm font-semibold text-deep-blue">{name}</span>
                 </div>
               ))}
             </div>
@@ -539,8 +620,8 @@ function EmailCta() {
             </div>
           ) : (
             <div>
-              <h2 className="m-0 text-2xl font-bold sm:text-3xl">지금 신청하고 가장 먼저 경험하세요</h2>
-              <p className="m-0 mx-auto mt-3 max-w-lg text-sm text-light-blue">
+              <h2 className="m-0 text-xl font-bold sm:text-2xl lg:text-3xl">지금 신청하고 가장 먼저 경험하세요</h2>
+              <p className="m-0 mx-auto mt-3 max-w-lg text-xs text-light-blue sm:text-sm">
                 얼리액세스 신청자에게 출시 소식을 가장 먼저 전달드립니다.
               </p>
               <form
@@ -599,9 +680,7 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <PainPoints />
-        <Features />
-        <Why />
+        <FlowSection />
         <Integrations />
         <EmailCta />
       </main>
