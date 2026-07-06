@@ -379,6 +379,7 @@ function Integrations() {
 /* ─── Email CTA ─────────────────────────────────────────── */
 function EmailCta() {
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [step, setStep] = useState('idle'); // idle | loading | survey | done
   const [job, setJob] = useState('');
   const [services, setServices] = useState([]);
@@ -388,6 +389,11 @@ function EmailCta() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('올바른 이메일 형식을 입력해주세요.');
+      return;
+    }
+    setEmailError('');
     setStep('loading');
     setStep('survey');
   }
@@ -541,14 +547,18 @@ function EmailCta() {
                 onSubmit={handleSubmit}
                 className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
               >
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="이메일 주소를 입력하세요"
-                  className="h-12 w-full max-w-sm rounded-2xl border border-white/30 bg-white/10 px-4 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 sm:w-80"
-                />
+                <div className="flex w-full flex-col gap-1 sm:w-80">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setEmailError(''); }}
+                    placeholder="이메일 주소를 입력하세요"
+                    className={`h-12 w-full rounded-2xl border bg-white/10 px-4 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 ${emailError ? 'border-red-400' : 'border-white/30'}`}
+                  />
+                  {emailError && (
+                    <p className="m-0 px-1 text-xs text-red-300">{emailError}</p>
+                  )}
+                </div>
                 <button
                   type="submit"
                   disabled={step === 'loading'}
