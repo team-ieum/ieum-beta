@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowRight, MessageSquare, Link2, BarChart3, Zap, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { ArrowRight, ArrowDown, MessageSquare, Link2, BarChart3, Zap, CheckCircle2 } from 'lucide-react';
 import './App.css';
 import symbol from './assets/symbol.png';
 import slack from './assets/serviceIcon/slack.png';
@@ -75,6 +75,36 @@ const WHY_ITEMS = [
 
 const JOB_OPTIONS = ['개발자', '기획자 / PM', '마케터', '디자이너', '대표 / 창업자', '학생', '기타'];
 const AGE_OPTIONS = ['10대', '20대', '30대', '40대', '50대 이상'];
+
+/* ─── Scroll animation ──────────────────────────────────── */
+function useInView() {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setInView(true); },
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, inView];
+}
+
+function FadeIn({ children, delay = 0, className = '' }) {
+  const [ref, inView] = useInView();
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+    >
+      {children}
+    </div>
+  );
+}
 
 /* ─── Nav ─────────────────────────────────────────────── */
 function Nav() {
@@ -202,37 +232,43 @@ function PainPoints() {
   return (
     <section className="border-t border-neutral-100 bg-neutral-50 py-20">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="mb-12 text-center">
-          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">매일 아침</p>
-          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">이 일, 아직도 직접 하고 계신가요?</h2>
-          <p className="m-0 mt-3 text-sm text-neutral-600">반복 업무에 쓰는 시간이 매일 조금씩 쌓이고 있습니다.</p>
-        </div>
+        <FadeIn>
+          <div className="mb-12 text-center">
+            <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">매일 아침</p>
+            <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">이 일, 아직도 직접 하고 계신가요?</h2>
+            <p className="m-0 mt-3 text-sm text-neutral-600">반복 업무에 쓰는 시간이 매일 조금씩 쌓이고 있습니다.</p>
+          </div>
+        </FadeIn>
         <div className="grid gap-6 lg:grid-cols-2 lg:items-center">
-          <div className="rounded-2xl border border-neutral-200 bg-white p-6">
-            <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400">지금은</p>
-            <div className="space-y-3">
-              {steps.map(({ time, text }) => (
-                <div key={time} className="flex items-start gap-3">
-                  <span className="shrink-0 rounded-lg bg-neutral-100 px-2 py-1 text-xs font-semibold tabular-nums text-neutral-500">{time}</span>
-                  <p className="m-0 text-sm text-neutral-600">{text}</p>
+          <FadeIn delay={0}>
+            <div className="rounded-2xl border border-neutral-200 bg-white p-6">
+              <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400">지금은</p>
+              <div className="space-y-3">
+                {steps.map(({ time, text }) => (
+                  <div key={time} className="flex items-start gap-3">
+                    <span className="shrink-0 rounded-lg bg-neutral-100 px-2 py-1 text-xs font-semibold tabular-nums text-neutral-500">{time}</span>
+                    <p className="m-0 text-sm text-neutral-600">{text}</p>
+                  </div>
+                ))}
+                <div className="mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-2.5">
+                  <p className="m-0 text-xs font-semibold text-red-500">매일 약 30분 소요 · 실수 발생 가능 · 빠뜨리는 경우 있음</p>
                 </div>
-              ))}
-              <div className="mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-2.5">
-                <p className="m-0 text-xs font-semibold text-red-500">매일 약 30분 소요 · 실수 발생 가능 · 빠뜨리는 경우 있음</p>
               </div>
             </div>
-          </div>
-          <div className="rounded-2xl border border-main-blue/30 bg-gradient-to-br from-light-blue/40 to-white p-6">
-            <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-main-blue">IEUM을 쓰면</p>
-            <div className="mb-3 rounded-xl border border-neutral-200 bg-white px-4 py-3">
-              <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
-              <p className="m-0 mt-1 text-sm text-neutral-800">"슬랙 DM 오면 Notion에 정리하고 팀 채널에 요약 올려줘"</p>
+          </FadeIn>
+          <FadeIn delay={150}>
+            <div className="rounded-2xl border border-main-blue/30 bg-gradient-to-br from-light-blue/40 to-white p-6">
+              <p className="m-0 mb-4 text-xs font-semibold uppercase tracking-wider text-main-blue">IEUM을 쓰면</p>
+              <div className="mb-3 rounded-xl border border-neutral-200 bg-white px-4 py-3">
+                <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
+                <p className="m-0 mt-1 text-sm text-neutral-800">"슬랙 DM 오면 Notion에 정리하고 팀 채널에 요약 올려줘"</p>
+              </div>
+              <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5">
+                <CheckCircle2 size={14} className="shrink-0 text-green-600" />
+                <p className="m-0 text-xs font-semibold text-green-700">자동 실행 중 · 매일 0분 소요</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5">
-              <CheckCircle2 size={14} className="shrink-0 text-green-600" />
-              <p className="m-0 text-xs font-semibold text-green-700">자동 실행 중 · 매일 0분 소요</p>
-            </div>
-          </div>
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -244,23 +280,44 @@ function Features() {
   return (
     <section id="features" className="border-t border-neutral-100 bg-white py-20">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="mb-12 max-w-2xl">
-          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">How it works</p>
-          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">세 가지만 기억하세요</h2>
-          <p className="m-0 mt-3 text-sm text-neutral-600">나머지는 AI가 합니다.</p>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-3">
-          {FEATURES.map(({ icon: Icon, title, desc }) => (
-            <article key={title} className="flex flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-6 transition-shadow hover:shadow-md">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-light-blue text-main-blue">
-                <Icon size={22} />
-              </span>
-              <div>
-                <h3 className="m-0 text-base font-semibold text-neutral-900">{title}</h3>
-                <p className="m-0 mt-1.5 text-sm text-neutral-500">{desc}</p>
-              </div>
-            </article>
-          ))}
+        <FadeIn>
+          <div className="mb-12 max-w-2xl">
+            <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">How it works</p>
+            <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">세 가지만 기억하세요</h2>
+            <p className="m-0 mt-3 text-sm text-neutral-600">나머지는 AI가 합니다.</p>
+          </div>
+        </FadeIn>
+
+        {/* 노드 + 화살표 레이아웃 */}
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-0">
+          {FEATURES.flatMap(({ icon: Icon, title, desc }, i) => {
+            const card = (
+              <FadeIn key={title} delay={i * 120} className="w-full sm:flex-1 sm:min-w-0">
+                <article className="flex h-full flex-col gap-4 rounded-2xl border border-neutral-200 bg-white p-6 transition-shadow hover:shadow-md">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-light-blue text-main-blue">
+                      <Icon size={22} />
+                    </span>
+                    <span className="select-none text-3xl font-bold text-neutral-100 tabular-nums">
+                      0{i + 1}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="m-0 text-base font-semibold text-neutral-900">{title}</h3>
+                    <p className="m-0 mt-1.5 text-sm text-neutral-500">{desc}</p>
+                  </div>
+                </article>
+              </FadeIn>
+            );
+            if (i === 0) return [card];
+            return [
+              <div key={`arrow-${i}`} className="flex shrink-0 items-center justify-center sm:px-2 sm:pt-10">
+                <ArrowDown size={18} className="text-neutral-300 sm:hidden" />
+                <ArrowRight size={18} className="hidden text-neutral-300 sm:block" />
+              </div>,
+              card,
+            ];
+          })}
         </div>
       </div>
     </section>
@@ -272,16 +329,20 @@ function Why() {
   return (
     <section className="border-t border-neutral-100 bg-neutral-50 py-20">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="mb-12 text-center">
-          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Why IEUM</p>
-          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">기존 자동화 툴과 다른 이유</h2>
-        </div>
+        <FadeIn>
+          <div className="mb-12 text-center">
+            <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Why IEUM</p>
+            <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">기존 자동화 툴과 다른 이유</h2>
+          </div>
+        </FadeIn>
         <div className="grid gap-5 sm:grid-cols-3">
-          {WHY_ITEMS.map(({ title, desc }) => (
-            <div key={title} className="rounded-2xl border border-neutral-200 bg-white p-6">
-              <h3 className="m-0 text-base font-semibold text-neutral-900">{title}</h3>
-              <p className="m-0 mt-2 text-sm text-neutral-500">{desc}</p>
-            </div>
+          {WHY_ITEMS.map(({ title, desc }, i) => (
+            <FadeIn key={title} delay={i * 100}>
+              <div className="h-full rounded-2xl border border-neutral-200 bg-white p-6">
+                <h3 className="m-0 text-base font-semibold text-neutral-900">{title}</h3>
+                <p className="m-0 mt-2 text-sm text-neutral-500">{desc}</p>
+              </div>
+            </FadeIn>
           ))}
         </div>
       </div>
