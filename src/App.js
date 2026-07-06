@@ -5,7 +5,6 @@ import symbol from './assets/symbol.png';
 import slack from './assets/serviceIcon/slack.png';
 import github from './assets/serviceIcon/github.png';
 import notion from './assets/serviceIcon/notion.png';
-import openai from './assets/serviceIcon/openai.png';
 import gmail from './assets/serviceIcon/gmail.png';
 import discord from './assets/serviceIcon/discord.png';
 import googleDrive from './assets/serviceIcon/googledrive.png';
@@ -13,7 +12,6 @@ import googleSheets from './assets/serviceIcon/googlesheets.png';
 import airtable from './assets/serviceIcon/airtable.png';
 import jira from './assets/serviceIcon/jira.png';
 import linear from './assets/serviceIcon/linear.png';
-import webhook from './assets/serviceIcon/webhook.png';
 
 // TODO: Apps Script 웹 앱을 배포한 뒤 URL을 여기에 입력하세요
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyO95AQgTUmWmtRUHVHsvos0BVCBOzDnq056z4h1MghQcApOvfljgjFyNgJ6FKmfku-yA/exec';
@@ -32,7 +30,6 @@ const INTEGRATIONS = [
   { name: 'Slack', icon: slack },
   { name: 'GitHub', icon: github },
   { name: 'Notion', icon: notion },
-  { name: 'OpenAI', icon: openai },
   { name: 'Gmail', icon: gmail },
   { name: 'Discord', icon: discord },
   { name: 'Google Drive', icon: googleDrive },
@@ -40,7 +37,6 @@ const INTEGRATIONS = [
   { name: 'Airtable', icon: airtable },
   { name: 'Jira', icon: jira },
   { name: 'Linear', icon: linear },
-  { name: 'Webhook', icon: webhook },
 ];
 
 const PAIN_POINTS = [
@@ -79,39 +75,6 @@ const FEATURES = [
   },
 ];
 
-const COMPARISONS = [
-  { vs: '타 글로벌 자동화 툴', them: '복잡한 UI에서 트리거·액션을 직접 설정', us: '말로 설명하면 AI가 구성' },
-  { vs: '타 오픈소스 솔루션', them: '직접 서버를 설치하고 유지보수', us: '설치 없이 즉시 사용' },
-  { vs: '직접 개발', them: '수십 줄 코드 + 지속적인 유지보수', us: '한 문장으로 완성, 수정도 말로' },
-];
-
-const PLANS = [
-  {
-    name: 'Free',
-    price: '무료',
-    period: '',
-    features: ['워크플로우 3개', '월 500회 실행', '기본 연동 5개'],
-    cta: '무료로 시작',
-    highlight: false,
-  },
-  {
-    name: 'Pro',
-    price: '₩9,900',
-    period: '/ 월',
-    badge: '인기',
-    features: ['워크플로우 무제한', '월 10,000회 실행', '연동 무제한', '실행 모니터링'],
-    cta: 'Pro 플랜 신청',
-    highlight: true,
-  },
-  {
-    name: 'Enterprise',
-    price: '별도 문의',
-    period: '',
-    features: ['모든 기능 포함', '전용 고객 지원', 'SLA 보장', '맞춤 연동 개발'],
-    cta: '문의하기',
-    highlight: false,
-  },
-];
 
 const JOB_OPTIONS = ['개발자', '기획자 / PM', '마케터', '디자이너', '대표 / 창업자', '학생', '기타'];
 const AGE_OPTIONS = ['10대', '20대', '30대', '40대', '50대 이상'];
@@ -127,7 +90,6 @@ function Nav() {
         </a>
         <nav className="hidden items-center gap-8 md:flex">
           <a href="#features" className="text-sm font-medium text-neutral-600 transition-colors hover:text-main-blue">기능</a>
-          <a href="#pricing" className="text-sm font-medium text-neutral-600 transition-colors hover:text-main-blue">가격</a>
         </nav>
         <a
           href="#cta"
@@ -306,98 +268,8 @@ function Features() {
   );
 }
 
-/* ─── Differentiators ───────────────────────────────────── */
-function Differentiators() {
-  return (
-    <section className="border-t border-neutral-100 bg-neutral-50 py-20">
-      <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="mb-12 text-center">
-          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Why IEUM</p>
-          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">기존 도구와 무엇이 다른가요?</h2>
-        </div>
-        <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-neutral-100 bg-neutral-50">
-                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-500">비교 대상</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-500">기존 방식</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-main-blue">IEUM</th>
-              </tr>
-            </thead>
-            <tbody>
-              {COMPARISONS.map(({ vs, them, us }, i) => (
-                <tr key={vs} className={i < COMPARISONS.length - 1 ? 'border-b border-neutral-100' : ''}>
-                  <td className="px-6 py-4 font-semibold text-neutral-700">{vs}</td>
-                  <td className="px-6 py-4 text-neutral-500">{them}</td>
-                  <td className="px-6 py-4 font-semibold text-main-blue">{us}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Pricing ───────────────────────────────────────────── */
-function Pricing({ onSelectPlan }) {
-  return (
-    <section id="pricing" className="border-t border-neutral-100 bg-white py-20">
-      <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="mb-12 text-center">
-          <p className="m-0 text-xs font-semibold uppercase tracking-wider text-main-blue">Pricing</p>
-          <h2 className="m-0 mt-2 text-2xl font-bold text-deep-blue sm:text-3xl">출시 가격 미리 보기</h2>
-          <p className="m-0 mt-3 text-sm text-neutral-600">얼리액세스 신청자는 6개월간 50% 할인 혜택을 드립니다.</p>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-3">
-          {PLANS.map(({ name, price, period, badge, features, cta, highlight }) => (
-            <div
-              key={name}
-              className={`relative flex flex-col rounded-2xl border p-6 ${
-                highlight
-                  ? 'border-main-blue bg-gradient-to-b from-light-blue/50 to-white shadow-lg'
-                  : 'border-neutral-200 bg-white'
-              }`}
-            >
-              {badge && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-main-blue px-3 py-0.5 text-xs font-semibold text-white">
-                  {badge}
-                </span>
-              )}
-              <p className="m-0 text-sm font-semibold text-neutral-500">{name}</p>
-              <div className="mt-2 flex items-end gap-1">
-                <span className="text-3xl font-bold text-neutral-900">{price}</span>
-                {period && <span className="mb-1 text-sm text-neutral-400">{period}</span>}
-              </div>
-              <ul className="m-0 mt-5 flex-1 list-none space-y-2 p-0">
-                {features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-neutral-600">
-                    <CheckCircle2 size={14} className="shrink-0 text-main-blue" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() => onSelectPlan(name)}
-                className={`mt-6 h-11 w-full cursor-pointer rounded-2xl text-sm font-semibold transition-colors ${
-                  highlight
-                    ? 'bg-main-blue text-white hover:bg-deep-blue'
-                    : 'border border-neutral-200 bg-white text-neutral-700 hover:border-main-blue hover:text-main-blue'
-                }`}
-              >
-                {cta}
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ─── Email CTA ─────────────────────────────────────────── */
-function EmailCta({ selectedPlan }) {
+function EmailCta() {
   const [email, setEmail] = useState('');
   const [step, setStep] = useState('idle'); // idle | loading | survey | done
   const [job, setJob] = useState('');
@@ -555,12 +427,7 @@ function EmailCta({ selectedPlan }) {
             <div>
               <h2 className="m-0 text-2xl font-bold sm:text-3xl">지금 신청하고 가장 먼저 경험하세요</h2>
               <p className="m-0 mx-auto mt-3 max-w-lg text-sm text-light-blue">
-                얼리액세스 신청자에게 출시 전 무료 플랜 3개월을 드립니다.
-                {selectedPlan && (
-                  <span className="ml-2 rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold">
-                    {selectedPlan} 플랜 선택됨
-                  </span>
-                )}
+                얼리액세스 신청자에게 출시 소식을 가장 먼저 전달드립니다.
               </p>
               <form
                 onSubmit={handleSubmit}
@@ -609,13 +476,6 @@ function Footer() {
 
 /* ─── App ───────────────────────────────────────────────── */
 export default function App() {
-  const [selectedPlan, setSelectedPlan] = useState('');
-
-  function handleSelectPlan(plan) {
-    setSelectedPlan(plan);
-    document.getElementById('cta').scrollIntoView({ behavior: 'smooth' });
-  }
-
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: 'Pretendard, -apple-system, sans-serif' }}>
       <Nav />
@@ -623,9 +483,7 @@ export default function App() {
         <Hero />
         <PainPoints />
         <Features />
-        <Differentiators />
-        <Pricing onSelectPlan={handleSelectPlan} />
-        <EmailCta selectedPlan={selectedPlan} />
+        <EmailCta />
       </main>
       <Footer />
     </div>
