@@ -43,12 +43,12 @@ const FEATURES = [
   {
     icon: MessageSquare,
     title: '한 문장으로 워크플로우 완성',
-    desc: '"GitHub PR 머지되면 팀 슬랙에 알려줘" — 이 한 줄이 전부입니다. AI가 의도를 파악해 즉시 구성합니다.',
+    desc: '"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘" — 이 한 줄이 전부입니다. AI가 의도를 파악해 즉시 구성합니다.',
   },
   {
     icon: Link2,
     title: '쓰던 서비스 그대로 연결',
-    desc: 'Slack, Notion, Gmail, GitHub 등 이미 쓰고 있는 서비스를 OAuth 한 번으로 바로 연결합니다.',
+    desc: 'Gmail, Discord, 구글 시트 등 이미 쓰고 있는 서비스를 OAuth 한 번으로 바로 연결합니다.',
   },
   {
     icon: BarChart3,
@@ -60,7 +60,7 @@ const FEATURES = [
 const WHY_ITEMS = [
   {
     title: '코드 없이 누구나',
-    desc: '개발자가 아니어도 됩니다. Notion 쓰듯이 하고 싶은 자동화를 설명하면 AI가 나머지를 처리합니다.',
+    desc: '개발자가 아니어도 됩니다. 카톡 보내듯이 하고 싶은 자동화를 설명하면 AI가 나머지를 처리합니다.',
   },
   {
     title: '배울 게 없어요',
@@ -151,7 +151,7 @@ function Hero() {
           </h1>
 
           <p className="m-0 max-w-lg text-base text-neutral-600">
-            복잡한 도구 없이. <strong>"슬랙 메시지 오면 Notion에 정리해줘"</strong> 한 문장으로 자동화가 완성됩니다.
+            복잡한 도구 없이. <strong>"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"</strong> 한 문장으로 자동화가 완성됩니다.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -192,20 +192,22 @@ function Hero() {
             <div className="space-y-4 bg-gradient-to-br from-light-blue/30 to-white p-6">
               <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
                 <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
-                <p className="m-0 mt-1 text-sm text-neutral-800">"슬랙에서 DM 오면 팀 채널에 요약해서 올려줘"</p>
+                <p className="m-0 mt-1 text-sm text-neutral-800">"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"</p>
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="flex items-center gap-2">
                 {[
-                  { label: 'Slack', sub: '트리거' },
-                  { label: 'AI 요약', sub: 'GPT-4o' },
-                  { label: 'Slack', sub: '액션' },
+                  { label: 'Gmail', sub: '트리거', color: '#EA4335', icon: gmail },
+                  { label: 'AI 정리', sub: 'GPT-4o', color: '#007ba7', icon: null },
+                  { label: 'Sheets', sub: '액션', color: '#1A73E8', icon: googleSheets },
                 ].map((node, i) => (
-                  <div
-                    key={i}
-                    className="rounded-lg border border-dashed border-main-blue/40 bg-white/80 px-2 py-3 text-center"
-                  >
-                    <p className="m-0 text-xs font-semibold text-deep-blue">{node.label}</p>
-                    <p className="m-0 text-xs text-neutral-400">{node.sub}</p>
+                  <div key={i} className="flex-1 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5" style={{ background: node.color }}>
+                      {node.icon
+                        ? <img src={node.icon} alt="" className="h-3.5 w-3.5 object-contain brightness-0 invert" />
+                        : <Zap size={12} className="text-white" />}
+                      <span className="truncate text-xs font-bold text-white">{node.label}</span>
+                    </div>
+                    <p className="m-0 px-2.5 py-1.5 text-xs text-neutral-400">{node.sub}</p>
                   </div>
                 ))}
               </div>
@@ -224,7 +226,7 @@ function Hero() {
 /* ─── Flow node box ──────────────────────────────────────── */
 function FlowNodeBox({ step, label, sublabel, icon: Icon, headerBg = '#29537c' }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_4px_20px_-4px_rgba(41,83,124,0.15)]">
       <div className="flex items-center gap-2.5 px-4 py-3" style={{ background: headerBg }}>
         {Icon && (
           <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/20">
@@ -285,10 +287,10 @@ function FlowSection() {
   }, []);
 
   const morningSteps = [
-    { time: '09:00', text: '슬랙 메시지 확인하고 중요 내용 메모장에 복사' },
-    { time: '09:10', text: 'Notion 열어서 팀 페이지에 내용 직접 붙여넣기' },
-    { time: '09:18', text: '팀 채널에 요약 메시지 따로 작성해서 전송' },
-    { time: '09:25', text: 'GitHub에 관련 이슈 직접 생성' },
+    { time: '09:00', text: '이메일 열어서 고객 문의 내용 하나씩 확인' },
+    { time: '09:10', text: '구글 시트 열어서 문의 내용 수동으로 입력' },
+    { time: '09:18', text: '디스코드 채널에 따로 정리해서 팀에게 공유' },
+    { time: '09:25', text: '고객에게 답장 이메일 하나씩 직접 작성' },
   ];
 
   return (
@@ -315,6 +317,13 @@ function FlowSection() {
       </svg>
 
       <div className="mx-auto max-w-5xl px-5 lg:px-8">
+
+        {/* 섹션 타이틀 */}
+        <FadeIn className="mb-14 text-center">
+          <span className="inline-block rounded-full border border-light-blue bg-light-blue/50 px-3 py-1 text-xs font-semibold text-main-blue">어떻게 작동하나요?</span>
+          <h2 className="m-0 mt-3 text-2xl font-bold text-deep-blue sm:text-3xl">업무 흐름, 이렇게 달라집니다</h2>
+          <p className="m-0 mt-2 text-sm text-neutral-500">반복을 자동화하면 중요한 일에 더 집중할 수 있습니다.</p>
+        </FadeIn>
 
         {/* ── Step 1: Pain Point (노드 왼쪽) ── */}
         <div ref={row1Ref} className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
@@ -347,7 +356,7 @@ function FlowSection() {
                 <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-main-blue">IEUM을 쓰면</p>
                 <div className="mb-3 rounded-xl border border-neutral-200 bg-white px-4 py-3">
                   <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
-                  <p className="m-0 mt-1 text-sm text-neutral-800">"슬랙 DM 오면 Notion에 정리하고 팀 채널에 요약 올려줘"</p>
+                  <p className="m-0 mt-1 text-sm text-neutral-800">"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"</p>
                 </div>
                 <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5">
                   <CheckCircle2 size={14} className="shrink-0 text-green-600" />
@@ -378,6 +387,17 @@ function FlowSection() {
           </div>
           <FadeIn className="flex-1">
             <div className="space-y-3">
+              {/* 입력 → 결과 예시 */}
+              <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
+                <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400">이렇게 말하면</p>
+                <div className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 italic">
+                  "이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"
+                </div>
+                <div className="mt-3 flex items-center gap-2">
+                  <ArrowDown size={14} className="shrink-0 text-main-blue" />
+                  <span className="text-xs font-semibold text-main-blue">AI가 즉시 워크플로우를 구성합니다</span>
+                </div>
+              </div>
               {FEATURES.map(({ icon: Icon, title, desc }, i) => (
                 <div key={title} className="flex items-start gap-4 rounded-2xl border border-neutral-200 bg-white p-5">
                   <div className="flex shrink-0 items-center gap-3">
@@ -416,10 +436,15 @@ function FlowSection() {
           </div>
           <FadeIn className="flex-1">
             <div className="space-y-3">
-              {WHY_ITEMS.map(({ title, desc }) => (
-                <div key={title} className="rounded-2xl border border-neutral-200 bg-white p-5">
-                  <h3 className="m-0 text-sm font-semibold text-neutral-900">{title}</h3>
-                  <p className="m-0 mt-1 text-sm text-neutral-500">{desc}</p>
+              {WHY_ITEMS.map(({ title, desc }, i) => (
+                <div key={title} className="flex items-start gap-4 rounded-2xl border border-neutral-200 bg-white p-5">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-light-blue text-sm font-bold text-main-blue tabular-nums">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <h3 className="m-0 text-sm font-semibold text-neutral-900">{title}</h3>
+                    <p className="m-0 mt-1 text-sm text-neutral-500">{desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -667,7 +692,7 @@ function Footer() {
           <span className="font-logo text-lg text-deep-blue">IEUM</span>
           <span className="text-xs text-neutral-400">beta · v0.1.0</span>
         </div>
-        <p className="m-0 text-xs text-neutral-400">© 2025 IEUM. All rights reserved.</p>
+        <p className="m-0 text-xs text-neutral-400">© 2026 IEUM. All rights reserved.</p>
       </div>
     </footer>
   );
