@@ -98,7 +98,7 @@ function FadeIn({ children, delay = 0, className = '' }) {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`}
+      className={`transition-all duration-1000 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}
@@ -129,12 +129,24 @@ function Nav() {
 
 /* ─── Hero ─────────────────────────────────────────────── */
 function Hero() {
+  const contentRef = useRef(null);
+  useEffect(() => {
+    const onScroll = () => {
+      if (!contentRef.current) return;
+      const y = window.scrollY;
+      contentRef.current.style.transform = `translateY(${-y * 0.18}px)`;
+      contentRef.current.style.opacity = Math.max(0, 1 - y / 500);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-light-blue/60 via-white to-white py-16 lg:py-24">
       <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-main-blue/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-light-blue/40 blur-3xl" />
 
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-2 lg:items-center lg:gap-8 lg:px-8">
+      <div ref={contentRef} style={{ willChange: 'transform, opacity' }} className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-2 lg:items-center lg:gap-8 lg:px-8">
         <div className="flex flex-col gap-6">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-light-blue bg-white/80 px-3 py-1 text-xs font-semibold text-deep-blue">
             <Zap size={14} className="text-main-blue" />
@@ -256,6 +268,8 @@ function FlowSection() {
   const row2Ref = useRef(null);
   const row3Ref = useRef(null);
   const [lines, setLines] = useState([]);
+  const [revealed, setRevealed] = useState([]);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
     function measure() {
@@ -265,8 +279,7 @@ function FlowSection() {
       const sR = section.getBoundingClientRect();
       const nR = [ref1, ref2, ref3].map(r => r.current.getBoundingClientRect());
       const rR = [row1Ref, row2Ref, row3Ref].map(r => r.current.getBoundingClientRect());
-      // 수평 꺾임을 row 사이 빈 갭의 중간점으로 라우팅 (콘텐츠 박스를 통과하지 않음)
-      setLines([
+      const newLines = [
         {
           x1: nR[0].left + nR[0].width / 2 - sR.left,
           y1: nR[0].bottom - sR.top,
@@ -281,13 +294,39 @@ function FlowSection() {
           x2: nR[2].left + nR[2].width / 2 - sR.left,
           y2: nR[2].top - sR.top,
         },
-      ]);
+      ].map(l => ({
+        ...l,
+        totalLength: (l.gapY - l.y1) + Math.abs(l.x2 - l.x1) + (l.y2 - l.gapY) + 20,
+      }));
+      setLines(newLines);
     }
+
     measure();
     const t = setTimeout(measure, 120);
     window.addEventListener('resize', measure);
     return () => { clearTimeout(t); window.removeEventListener('resize', measure); };
   }, []);
+
+  useEffect(() => {
+    if (!sectionRef.current || lines.length === 0) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !animatedRef.current) {
+          animatedRef.current = true;
+          setRevealed(lines.map(() => false));
+          lines.forEach((_, i) => {
+            setTimeout(() => {
+              setRevealed(prev => prev.map((v, idx) => idx === i ? true : v));
+            }, 300 + i * 800);
+          });
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    obs.observe(sectionRef.current);
+    return () => obs.disconnect();
+  }, [lines]);
 
   const morningSteps = [
     { time: '09:00', text: '이메일 열어서 고객 문의 내용 하나씩 확인' },
@@ -301,22 +340,35 @@ function FlowSection() {
 
       {/* SVG overlay — DOM 위치를 측정해 노드끼리 직접 연결 */}
       <svg className="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible lg:block" aria-hidden="true">
-        <defs>
-          <marker id="arr-flow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#007ba7" />
-          </marker>
-        </defs>
-        {lines.map(({ x1, y1, gapY, x2, y2 }, i) => (
-          <path
-            key={i}
-            d={`M ${x1} ${y1} L ${x1} ${gapY} L ${x2} ${gapY} L ${x2} ${y2}`}
-            fill="none"
-            stroke="#007ba7"
-            strokeWidth="2"
-            strokeDasharray="8 5"
-            markerEnd="url(#arr-flow)"
-          />
-        ))}
+        {lines.map(({ x1, y1, gapY, x2, y2, totalLength }, i) => {
+          const d = `M ${x1} ${y1} L ${x1} ${gapY} L ${x2} ${gapY} L ${x2} ${y2}`;
+          return (
+            <g key={i}>
+              {/* 파란 점선 (markerEnd 없음 — 화살표는 아래에서 별도 처리) */}
+              <path d={d} fill="none" stroke="#007ba7" strokeWidth="2" strokeDasharray="8 5" />
+              {/* 흰 오버레이 */}
+              <path
+                d={d}
+                fill="none"
+                stroke="white"
+                strokeWidth="4"
+                strokeLinecap="butt"
+                strokeDasharray={`${totalLength} ${totalLength}`}
+                strokeDashoffset={revealed[i] ? -totalLength : 0}
+                style={{ transition: revealed[i] ? `stroke-dashoffset ${i === 0 ? 2 : 3}s ease-in-out` : 'none' }}
+              />
+              {/* 화살표 — 선 그리기가 거의 끝날 때 페이드인 */}
+              <polygon
+                points={`${x2 - 5},${y2 - 8} ${x2 + 5},${y2 - 8} ${x2},${y2}`}
+                fill="#007ba7"
+                style={{
+                  opacity: revealed[i] ? 1 : 0,
+                  transition: revealed[i] ? `opacity 0.3s ease-out ${i === 0 ? 1.8 : 2.7}s` : 'none',
+                }}
+              />
+            </g>
+          );
+        })}
       </svg>
 
       <div className="mx-auto max-w-5xl px-5 lg:px-8">
