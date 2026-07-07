@@ -224,20 +224,26 @@ function Hero() {
 }
 
 /* ─── Flow node box ──────────────────────────────────────── */
-function FlowNodeBox({ step, label, sublabel, icon: Icon, headerBg = '#29537c' }) {
+function FlowNodeBox({ step, label, sublabel, icon: Icon, headerBg = '#29537c', stepNum = '' }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_4px_20px_-4px_rgba(41,83,124,0.15)]">
-      <div className="flex items-center gap-2.5 px-4 py-3" style={{ background: headerBg }}>
-        {Icon && (
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/20">
-            <Icon size={16} className="text-white" />
-          </span>
-        )}
-        <span className="text-sm font-bold text-white">{step}</span>
+    <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_8px_32px_-8px_rgba(41,83,124,0.22)]">
+      {/* 컬러 헤더 — 아이콘 + 스텝명 */}
+      <div className="relative overflow-hidden px-4 py-3.5" style={{ background: headerBg }}>
+        <div className="pointer-events-none absolute -right-4 -top-4 h-16 w-16 rounded-full bg-white/10" />
+        <div className="relative flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white/20">
+              {Icon && <Icon size={16} className="text-white" />}
+            </span>
+            <span className="text-sm font-bold text-white">{step}</span>
+          </div>
+          {stepNum && <span className="select-none text-2xl font-black text-white/20">{stepNum}</span>}
+        </div>
       </div>
-      <div className="px-4 py-4">
-        <p className="m-0 text-sm font-semibold leading-snug text-deep-blue">{label}</p>
-        {sublabel && <p className="m-0 mt-1.5 text-xs text-neutral-500">{sublabel}</p>}
+      {/* 바디 — 레이블 + 서브레이블 */}
+      <div className="px-5 py-5">
+        <p className="m-0 text-base font-bold leading-snug text-deep-blue">{label}</p>
+        {sublabel && <p className="m-0 mt-2 text-sm leading-relaxed text-neutral-500">{sublabel}</p>}
       </div>
     </div>
   );
@@ -327,13 +333,14 @@ function FlowSection() {
 
         {/* ── Step 1: Pain Point (노드 왼쪽) ── */}
         <div ref={row1Ref} className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
-          <div ref={ref1} className="shrink-0 lg:w-60">
+          <div ref={ref1} className="shrink-0 lg:w-72">
             <FlowNodeBox
               step="Pain Point"
-              label="매일 아침 반복되는 업무, 지겹지 않으신가요?"
+              label={<>매일 아침 반복되는 업무,<br />지겹지 않으신가요?</>}
               sublabel="자동화하려 해도 도구가 너무 복잡합니다."
               icon={AlertCircle}
               headerBg="#4f5d75"
+              stepNum="01"
             />
           </div>
           <FadeIn className="flex-1">
@@ -376,13 +383,14 @@ function FlowSection() {
 
         {/* ── Step 2: How (노드 오른쪽) ── */}
         <div ref={row2Ref} className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start lg:gap-10">
-          <div ref={ref2} className="shrink-0 lg:w-60">
+          <div ref={ref2} className="shrink-0 lg:w-72">
             <FlowNodeBox
               step="How"
               label="한 문장이면 충분합니다"
               sublabel="AI가 의도를 파악해 워크플로우를 즉시 구성합니다."
               icon={MessageSquare}
               headerBg="#007ba7"
+              stepNum="02"
             />
           </div>
           <FadeIn className="flex-1">
@@ -425,13 +433,14 @@ function FlowSection() {
 
         {/* ── Step 3: Why (노드 왼쪽) ── */}
         <div ref={row3Ref} className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
-          <div ref={ref3} className="shrink-0 lg:w-60">
+          <div ref={ref3} className="shrink-0 lg:w-72">
             <FlowNodeBox
               step="Why IEUM"
               label="기존 자동화 툴과 무엇이 다른가요?"
               sublabel="배울 것도, 설치할 것도 없습니다."
               icon={CheckCircle2}
               headerBg="#29537c"
+              stepNum="03"
             />
           </div>
           <FadeIn className="flex-1">
