@@ -115,9 +115,6 @@ function Nav() {
           <img src={symbol} alt="" className="h-8 w-8" />
           <span className="font-logo text-2xl text-deep-blue">IEUM</span>
         </a>
-        <nav className="hidden items-center gap-8 md:flex">
-          <a href="#features" className="text-sm font-medium text-neutral-600 transition-colors hover:text-main-blue">기능</a>
-        </nav>
         <a
           href="#cta"
           className="ml-auto inline-flex h-10 items-center gap-1.5 rounded-2xl bg-main-blue px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-deep-blue"
