@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ArrowDown, AlertCircle, MessageSquare, Link2, BarChart3, Zap, CheckCircle2 } from 'lucide-react';
 import './App.css';
 import symbol from './assets/symbol.png';
+import demoVideo from './assets/demo-intro.mov';
 import slack from './assets/serviceIcon/slack.png';
 import github from './assets/serviceIcon/github.png';
 import notion from './assets/serviceIcon/notion.png';
@@ -193,8 +194,24 @@ function Hero() {
           </ul>
         </div>
 
-        {/* 목업 UI */}
+        {/* 데모 영상 */}
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+          <video
+            src={demoVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onPlay={(e) => {
+              e.target.style.opacity = '1';
+              e.target.playbackRate = 1.3;
+            }}
+            className="w-full rounded-2xl border border-neutral-200 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] opacity-0 transition-opacity duration-1000"
+          />
+        </div>
+
+        {/* 목업 UI (보존) */}
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none hidden">
           <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
             {/* 타이틀바 */}
             <div className="flex items-center gap-1.5 border-b border-neutral-100 bg-neutral-50 px-4 py-3">
