@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ArrowDown, AlertCircle, MessageSquare, Link2, BarChart3, Zap, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowDown, AlertCircle, MessageSquare, Link2, BarChart3, CheckCircle2 } from 'lucide-react';
 import './App.css';
 import symbol from './assets/symbol.png';
 import demoVideo from './assets/demo-intro.mov';
