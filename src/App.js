@@ -109,18 +109,18 @@ function FadeIn({ children, delay = 0, className = '' }) {
 /* ─── Nav ─────────────────────────────────────────────── */
 function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-light-blue/80 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-neutral-100 bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-6xl items-center px-5 lg:px-8">
         <a href="/" className="inline-flex items-center gap-2.5">
-          <img src={symbol} alt="" className="h-8 w-8" />
-          <span className="font-logo text-2xl text-deep-blue">IEUM</span>
+          <img src={symbol} alt="" className="h-7 w-7" />
+          <span className="font-logo text-xl text-deep-blue">IEUM</span>
         </a>
         <a
           href="#cta"
-          className="ml-auto inline-flex h-10 items-center gap-1.5 rounded-2xl bg-main-blue px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-deep-blue"
+          className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg bg-main-blue px-4 text-xs font-semibold text-white transition-colors hover:bg-deep-blue"
         >
           얼리액세스 신청
-          <ArrowRight size={16} />
+          <ArrowRight size={13} />
         </a>
       </div>
     </header>
@@ -142,47 +142,51 @@ function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-light-blue/60 via-white to-white py-16 lg:py-24">
-      <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-main-blue/10 blur-3xl" />
-      <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-light-blue/40 blur-3xl" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#f5fbff] via-white to-white py-20 lg:py-28">
+      <div className="pointer-events-none absolute -right-32 top-0 h-96 w-96 rounded-full bg-main-blue/8 blur-[80px]" />
+      <div className="pointer-events-none absolute -left-24 bottom-10 h-72 w-72 rounded-full bg-light-blue/30 blur-[60px]" />
 
       <div ref={contentRef} style={{ willChange: 'transform, opacity' }} className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-2 lg:items-center lg:gap-8 lg:px-8">
         <div className="flex flex-col gap-6">
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-light-blue bg-white/80 px-3 py-1 text-xs font-semibold text-deep-blue">
-            <Zap size={14} className="text-main-blue" />
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-main-blue/20 bg-light-blue/50 px-3.5 py-1.5 text-xs font-semibold text-main-blue">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-main-blue opacity-60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-main-blue" />
+            </span>
             AI 워크플로우 자동화 플랫폼
           </span>
 
-          <h1 className="m-0 font-pretendard text-4xl font-bold leading-tight text-deep-blue sm:text-5xl lg:text-[3.25rem]">
+          <h1 className="m-0 font-pretendard text-4xl font-extrabold leading-[1.15] tracking-tight text-deep-blue sm:text-5xl lg:text-[3.5rem]">
             말로 설명하면<br />
             AI가 워크플로우를<br />
-            <span className="text-main-blue">만들어드립니다</span>
+            <span className="bg-gradient-to-r from-main-blue to-deep-blue bg-clip-text text-transparent">만들어드립니다</span>
           </h1>
 
-          <p className="m-0 max-w-lg text-base text-neutral-600">
-            복잡한 도구 없이. <strong>"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"</strong> 한 문장으로 자동화가 완성됩니다.
+          <p className="m-0 max-w-md text-base leading-relaxed text-neutral-500">
+            "이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘" — 한 문장이면 자동화 완성.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
             <a
               href="#cta"
-              className="inline-flex h-12 items-center gap-2 rounded-2xl bg-main-blue px-6 text-sm font-semibold text-white shadow-md transition-colors hover:bg-deep-blue"
+              className="inline-flex h-12 items-center gap-2 rounded-xl bg-main-blue px-7 text-sm font-bold text-white shadow-[0_4px_20px_rgba(0,123,167,0.3)] transition-all hover:bg-deep-blue active:scale-[0.98]"
             >
-              얼리액세스 신청하기
-              <ArrowRight size={18} />
+              무료로 신청하기
+              <ArrowRight size={16} />
             </a>
             <a
               href="#features"
-              className="inline-flex h-12 items-center gap-2 rounded-2xl border border-neutral-200 bg-white px-6 text-sm font-semibold text-neutral-700 transition-colors hover:border-main-blue hover:text-main-blue"
+              className="inline-flex h-12 items-center gap-2 rounded-xl border border-neutral-200 bg-white px-6 text-sm font-semibold text-neutral-600 transition-colors hover:border-main-blue/30 hover:text-main-blue"
             >
-              기능 살펴보기
+              어떻게 작동하나요
             </a>
           </div>
 
-          <ul className="m-0 flex flex-wrap gap-4 list-none p-0 text-xs font-medium text-neutral-500">
-            {['코드 없이', '자연어로', '즉시 연동'].map((item) => (
+          <ul className="m-0 flex flex-wrap gap-x-5 gap-y-1.5 list-none p-0 text-xs text-neutral-400">
+            {['코드 불필요', '자연어 한 문장', '즉시 연동'].map((item, i) => (
               <li key={item} className="inline-flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-main-blue" />
+                {i > 0 && <span className="mr-3 h-3 w-px bg-neutral-200" />}
+                <CheckCircle2 size={12} className="text-main-blue" />
                 {item}
               </li>
             ))}
@@ -191,38 +195,50 @@ function Hero() {
 
         {/* 목업 UI */}
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <div className="overflow-hidden rounded-2xl border border-light-blue bg-white shadow-[0_24px_48px_-12px_rgba(41,83,124,0.18)]">
-            <div className="flex items-center gap-2 border-b border-neutral-100 bg-light-blue/50 px-4 py-3">
+          <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]">
+            {/* 타이틀바 */}
+            <div className="flex items-center gap-1.5 border-b border-neutral-100 bg-neutral-50 px-4 py-3">
               <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
               <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
               <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
-              <span className="ml-2 text-xs font-medium text-neutral-400">IEUM — AI 워크플로우</span>
+              <span className="ml-2 text-xs font-medium text-neutral-400">IEUM — 새 워크플로우</span>
             </div>
-            <div className="space-y-4 bg-gradient-to-br from-light-blue/30 to-white p-6">
+            <div className="space-y-4 p-5">
+              {/* 입력창 */}
               <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
-                <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
-                <p className="m-0 mt-1 text-sm text-neutral-800">"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"</p>
+                <p className="m-0 text-[11px] font-medium text-neutral-400 mb-1">워크플로우 설명</p>
+                <p className="m-0 text-sm text-neutral-800">"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"</p>
               </div>
-              <div className="flex items-center gap-2">
+              {/* 워크플로우 노드 */}
+              <div className="space-y-1.5">
+                <p className="m-0 text-[10px] font-semibold uppercase tracking-widest text-neutral-400">생성된 워크플로우</p>
                 {[
-                  { label: 'Gmail', sub: '트리거', color: '#EA4335', icon: gmail },
-                  { label: 'AI 정리', sub: 'GPT-4o', color: '#007ba7', icon: null },
-                  { label: 'Sheets', sub: '액션', color: '#1A73E8', icon: googleSheets },
+                  { label: 'Gmail', sub: '새 이메일 수신 시', color: '#EA4335', icon: gmail },
+                  { label: 'Google Sheets', sub: '문의 내용 행 추가', color: '#1A73E8', icon: googleSheets },
+                  { label: 'Discord', sub: '#문의-알림 채널에 전송', color: '#5865F2', icon: discord },
                 ].map((node, i) => (
-                  <div key={i} className="flex-1 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1.5" style={{ background: node.color }}>
-                      {node.icon
-                        ? <img src={node.icon} alt="" className="h-3.5 w-3.5 object-contain brightness-0 invert" />
-                        : <Zap size={12} className="text-white" />}
-                      <span className="truncate text-xs font-bold text-white">{node.label}</span>
+                  <div key={i}>
+                    <div className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-3">
+                      <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg" style={{ background: node.color }}>
+                        <img src={node.icon} alt="" className="h-4 w-4 object-contain brightness-0 invert" />
+                      </div>
+                      <div>
+                        <p className="m-0 text-xs font-semibold text-neutral-800">{node.label}</p>
+                        <p className="m-0 text-[11px] text-neutral-400">{node.sub}</p>
+                      </div>
+                      <CheckCircle2 size={14} className="ml-auto shrink-0 text-green-500" />
                     </div>
-                    <p className="m-0 px-2.5 py-1.5 text-xs text-neutral-400">{node.sub}</p>
+                    {i < 2 && <div className="ml-7 h-3 w-px bg-neutral-200" />}
                   </div>
                 ))}
               </div>
-              <div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-3 py-2">
-                <CheckCircle2 size={14} className="shrink-0 text-green-600" />
-                <p className="m-0 text-xs text-green-700">워크플로우가 생성되었습니다. 지금 바로 실행할 수 있어요.</p>
+              {/* 완료 상태 */}
+              <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-3.5 py-2.5">
+                <div className="relative flex h-2 w-2 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+                </div>
+                <p className="m-0 text-xs font-semibold text-green-700">실행 중 · 오늘 3건 처리됨</p>
               </div>
             </div>
           </div>
@@ -237,22 +253,22 @@ function FlowNodeBox({ step, label, sublabel, icon: Icon, headerBg = '#29537c', 
   return (
     <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-[0_8px_32px_-8px_rgba(41,83,124,0.22)]">
       {/* 컬러 헤더 — 아이콘 + 스텝명 */}
-      <div className="relative overflow-hidden px-4 py-3.5" style={{ background: headerBg }}>
+      <div className="relative overflow-hidden px-5 py-4" style={{ background: headerBg }}>
         <div className="pointer-events-none absolute -right-4 -top-4 h-16 w-16 rounded-full bg-white/10" />
         <div className="relative flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white/20">
-              {Icon && <Icon size={16} className="text-white" />}
+          <div className="flex items-center gap-3">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/20">
+              {Icon && <Icon size={18} className="text-white" />}
             </span>
-            <span className="text-sm font-bold text-white">{step}</span>
+            <span className="text-base font-bold text-white">{step}</span>
           </div>
           {stepNum && <span className="select-none text-2xl font-black text-white/20">{stepNum}</span>}
         </div>
       </div>
       {/* 바디 — 레이블 + 서브레이블 */}
-      <div className="px-5 py-5">
-        <p className="m-0 text-base font-bold leading-snug text-deep-blue">{label}</p>
-        {sublabel && <p className="m-0 mt-2 text-sm leading-relaxed text-neutral-500">{sublabel}</p>}
+      <div className="px-6 py-6">
+        <p className="m-0 text-lg font-bold leading-snug text-deep-blue">{label}</p>
+        {sublabel && <p className="m-0 mt-2 text-base leading-relaxed text-neutral-500">{sublabel}</p>}
       </div>
     </div>
   );
@@ -336,7 +352,7 @@ function FlowSection() {
   ];
 
   return (
-    <section ref={sectionRef} id="features" className="relative border-t border-neutral-100 bg-white py-20">
+    <section ref={sectionRef} id="features" className="relative border-t border-neutral-100 bg-white py-32">
 
       {/* SVG overlay — DOM 위치를 측정해 노드끼리 직접 연결 */}
       <svg className="pointer-events-none absolute inset-0 hidden h-full w-full overflow-visible lg:block" aria-hidden="true">
@@ -345,7 +361,7 @@ function FlowSection() {
           return (
             <g key={i}>
               {/* 파란 점선 (markerEnd 없음 — 화살표는 아래에서 별도 처리) */}
-              <path d={d} fill="none" stroke="#007ba7" strokeWidth="2" strokeDasharray="8 5" />
+              <path d={d} fill="none" stroke="#007ba7" strokeWidth="1.5" strokeOpacity="0.25" />
               {/* 흰 오버레이 */}
               <path
                 d={d}
@@ -355,15 +371,16 @@ function FlowSection() {
                 strokeLinecap="butt"
                 strokeDasharray={`${totalLength} ${totalLength}`}
                 strokeDashoffset={revealed[i] ? -totalLength : 0}
-                style={{ transition: revealed[i] ? `stroke-dashoffset ${i === 0 ? 2 : 3}s ease-in-out` : 'none' }}
+                style={{ transition: revealed[i] ? `stroke-dashoffset ${2 + i}s ease-in-out` : 'none' }}
               />
               {/* 화살표 — 선 그리기가 거의 끝날 때 페이드인 */}
               <polygon
                 points={`${x2 - 5},${y2 - 8} ${x2 + 5},${y2 - 8} ${x2},${y2}`}
                 fill="#007ba7"
+                fillOpacity="0.35"
                 style={{
                   opacity: revealed[i] ? 1 : 0,
-                  transition: revealed[i] ? `opacity 0.3s ease-out ${i === 0 ? 1.8 : 2.7}s` : 'none',
+                  transition: revealed[i] ? `opacity 0.3s ease-out ${1.8 + i * 0.9}s` : 'none',
                 }}
               />
             </g>
@@ -374,15 +391,15 @@ function FlowSection() {
       <div className="mx-auto max-w-5xl px-5 lg:px-8">
 
         {/* 섹션 타이틀 */}
-        <FadeIn className="mb-14 text-center">
-          <span className="inline-block rounded-full border border-light-blue bg-light-blue/50 px-3 py-1 text-xs font-semibold text-main-blue">어떻게 작동하나요?</span>
-          <h2 className="m-0 mt-3 text-2xl font-bold text-deep-blue sm:text-3xl">업무 흐름, 이렇게 달라집니다</h2>
-          <p className="m-0 mt-2 text-sm text-neutral-500">반복을 자동화하면 중요한 일에 더 집중할 수 있습니다.</p>
+        <FadeIn className="mb-20 text-center">
+          <span className="inline-block rounded-full border border-main-blue/20 bg-light-blue/50 px-3.5 py-1.5 text-xs font-semibold text-main-blue">어떻게 작동하나요?</span>
+          <h2 className="m-0 mt-4 text-3xl font-extrabold tracking-tight text-deep-blue sm:text-4xl">업무 흐름, 이렇게 달라집니다</h2>
+          <p className="m-0 mt-3 text-base text-neutral-500">반복을 자동화하면 중요한 일에 더 집중할 수 있습니다.</p>
         </FadeIn>
 
         {/* ── Step 1: Pain Point (노드 왼쪽) ── */}
-        <div ref={row1Ref} className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
-          <div ref={ref1} className="shrink-0 lg:w-72">
+        <div ref={row1Ref} className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-14">
+          <div ref={ref1} className="shrink-0 lg:w-80">
             <FlowNodeBox
               step="Pain Point"
               label={<>매일 아침 반복되는 업무,<br />지겹지 않으신가요?</>}
@@ -393,29 +410,29 @@ function FlowSection() {
             />
           </div>
           <FadeIn className="flex-1">
-            <div className="space-y-3">
-              <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
-                <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400">지금은</p>
-                <div className="space-y-2.5">
+            <div className="space-y-4">
+              <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-6 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.07)]">
+                <p className="m-0 mb-4 text-[10px] font-bold uppercase tracking-widest text-neutral-400">지금은</p>
+                <div className="space-y-2">
                   {morningSteps.map(({ time, text }) => (
                     <div key={time} className="flex items-start gap-3">
-                      <span className="shrink-0 rounded-md bg-white px-2 py-0.5 text-xs font-semibold tabular-nums text-neutral-500 shadow-sm ring-1 ring-neutral-200">{time}</span>
+                      <span className="shrink-0 rounded-md bg-white px-2 py-0.5 text-[11px] font-bold tabular-nums text-neutral-400 ring-1 ring-neutral-200">{time}</span>
                       <p className="m-0 text-sm text-neutral-600">{text}</p>
                     </div>
                   ))}
-                  <div className="mt-2 rounded-xl border border-red-100 bg-red-50 px-4 py-2">
-                    <p className="m-0 text-xs font-semibold text-red-500">매일 약 30분 소요 · 실수 가능 · 빠뜨리는 경우 있음</p>
+                  <div className="mt-2 rounded-lg border border-red-100 bg-red-50/80 px-3 py-2">
+                    <p className="m-0 text-xs font-semibold text-red-500">매일 약 30분 소요 · 실수 가능</p>
                   </div>
                 </div>
               </div>
-              <div className="rounded-2xl border border-main-blue/20 bg-light-blue/30 p-5">
-                <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-main-blue">IEUM을 쓰면</p>
-                <div className="mb-3 rounded-xl border border-neutral-200 bg-white px-4 py-3">
+              <div className="rounded-xl border border-main-blue/15 bg-white p-6 shadow-[0_2px_12px_-4px_rgba(0,123,167,0.1)]">
+                <p className="m-0 mb-4 text-[10px] font-bold uppercase tracking-widest text-main-blue">IEUM을 쓰면</p>
+                <div className="mb-3 rounded-lg border border-neutral-100 bg-neutral-50 px-4 py-3">
                   <p className="m-0 text-xs text-neutral-400">워크플로우 설명</p>
                   <p className="m-0 mt-1 text-sm text-neutral-800">"이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"</p>
                 </div>
-                <div className="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5">
-                  <CheckCircle2 size={14} className="shrink-0 text-green-600" />
+                <div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-3 py-2.5">
+                  <CheckCircle2 size={13} className="shrink-0 text-green-600" />
                   <p className="m-0 text-xs font-semibold text-green-700">자동 실행 중 · 매일 0분 소요</p>
                 </div>
               </div>
@@ -424,15 +441,15 @@ function FlowSection() {
         </div>
 
         {/* 모바일 연결선 1 */}
-        <div className="flex justify-center py-1 lg:hidden">
-          <div className="h-10 border-l-2 border-dashed border-main-blue" />
+        <div className="flex justify-center py-2 lg:hidden">
+          <div className="h-12 border-l-2 border-main-blue/25" />
         </div>
         {/* 데스크탑 gap 공간 (SVG gapY 측정용) */}
-        <div className="hidden h-16 lg:block" />
+        <div className="hidden h-24 lg:block" />
 
         {/* ── Step 2: How (노드 오른쪽) ── */}
-        <div ref={row2Ref} className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start lg:gap-10">
-          <div ref={ref2} className="shrink-0 lg:w-72">
+        <div ref={row2Ref} className="flex flex-col gap-8 lg:flex-row-reverse lg:items-start lg:gap-14">
+          <div ref={ref2} className="shrink-0 lg:w-80">
             <FlowNodeBox
               step="How"
               label="한 문장이면 충분합니다"
@@ -443,9 +460,9 @@ function FlowSection() {
             />
           </div>
           <FadeIn className="flex-1">
-            <div className="space-y-3">
+            <div className="space-y-4">
               {/* 입력 → 결과 예시 */}
-              <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-5">
+              <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-6 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.07)]">
                 <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400">이렇게 말하면</p>
                 <div className="rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 italic">
                   "이메일 문의 오면 구글 시트에 정리하고 디스코드로 알려줘"
@@ -456,16 +473,13 @@ function FlowSection() {
                 </div>
               </div>
               {FEATURES.map(({ icon: Icon, title, desc }, i) => (
-                <div key={title} className="flex items-start gap-4 rounded-2xl border border-neutral-200 bg-white p-5">
-                  <div className="flex shrink-0 items-center gap-3">
-                    <span className="select-none text-xl font-bold text-neutral-200 tabular-nums">0{i + 1}</span>
-                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-light-blue text-main-blue">
-                      <Icon size={20} />
-                    </span>
-                  </div>
+                <div key={title} className="flex items-start gap-4 rounded-xl border border-neutral-200 bg-white p-6 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.07)] hover:border-main-blue/20 transition-colors">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-light-blue text-main-blue">
+                    <Icon size={17} />
+                  </span>
                   <div>
                     <h3 className="m-0 text-sm font-semibold text-neutral-900">{title}</h3>
-                    <p className="m-0 mt-1 text-sm text-neutral-500">{desc}</p>
+                    <p className="m-0 mt-1 text-sm leading-relaxed text-neutral-500">{desc}</p>
                   </div>
                 </div>
               ))}
@@ -474,15 +488,15 @@ function FlowSection() {
         </div>
 
         {/* 모바일 연결선 2 */}
-        <div className="flex justify-center py-1 lg:hidden">
-          <div className="h-10 border-l-2 border-dashed border-main-blue" />
+        <div className="flex justify-center py-2 lg:hidden">
+          <div className="h-12 border-l-2 border-main-blue/25" />
         </div>
         {/* 데스크탑 gap 공간 (SVG gapY 측정용) */}
-        <div className="hidden h-16 lg:block" />
+        <div className="hidden h-24 lg:block" />
 
         {/* ── Step 3: Why (노드 왼쪽) ── */}
-        <div ref={row3Ref} className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
-          <div ref={ref3} className="shrink-0 lg:w-72">
+        <div ref={row3Ref} className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-14">
+          <div ref={ref3} className="shrink-0 lg:w-80">
             <FlowNodeBox
               step="Why IEUM"
               label="기존 자동화 툴과 무엇이 다른가요?"
@@ -493,21 +507,22 @@ function FlowSection() {
             />
           </div>
           <FadeIn className="flex-1">
-            <div className="space-y-3">
+            <div className="space-y-4">
               {WHY_ITEMS.map(({ title, desc }, i) => (
-                <div key={title} className="flex items-start gap-4 rounded-2xl border border-neutral-200 bg-white p-5">
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-light-blue text-sm font-bold text-main-blue tabular-nums">
+                <div key={title} className="flex items-start gap-4 rounded-xl border border-neutral-200 bg-white p-6 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.07)] hover:border-main-blue/20 transition-colors">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-light-blue text-sm font-bold text-main-blue tabular-nums">
                     {i + 1}
                   </span>
                   <div>
                     <h3 className="m-0 text-sm font-semibold text-neutral-900">{title}</h3>
-                    <p className="m-0 mt-1 text-sm text-neutral-500">{desc}</p>
+                    <p className="m-0 mt-1 text-sm leading-relaxed text-neutral-500">{desc}</p>
                   </div>
                 </div>
               ))}
             </div>
           </FadeIn>
         </div>
+
 
       </div>
     </section>
@@ -519,17 +534,20 @@ function Integrations() {
   return (
     <section className="border-t border-neutral-100 bg-white py-16">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-light-blue/60 to-light-blue/20 py-10 text-center">
-          <h3 className="m-0 text-lg font-semibold text-deep-blue">자주 쓰는 도구와 바로 연결</h3>
-          <p className="m-0 mt-1 text-sm text-main-blue">더 많은 연동이 계속 추가됩니다.</p>
-          <div className="relative mt-6 overflow-hidden">
-            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-light-blue/60 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-light-blue/20 to-transparent" />
+        <div className="rounded-3xl bg-[#f5fbff] px-8 py-10">
+          <div className="text-center mb-8">
+            <p className="m-0 text-xs font-semibold uppercase tracking-widest text-main-blue/60">Integrations</p>
+            <h3 className="m-0 mt-2 text-xl font-bold text-deep-blue">자주 쓰는 도구와 바로 연결</h3>
+            <p className="m-0 mt-1.5 text-sm text-main-blue">더 많은 연동이 계속 추가됩니다.</p>
+          </div>
+          <div className="relative overflow-hidden">
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#f5fbff] to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#f5fbff] to-transparent" />
             <div className="marquee-track">
               {[...INTEGRATIONS, ...INTEGRATIONS].map(({ name, icon }, i) => (
-                <div key={i} className="mx-2 flex shrink-0 items-center gap-2.5 rounded-xl border border-main-blue/15 bg-white/70 px-4 py-2.5">
-                  <img src={icon} alt="" className="h-7 w-7 object-contain" />
-                  <span className="text-sm font-semibold text-deep-blue">{name}</span>
+                <div key={i} className="mx-2 flex shrink-0 items-center gap-2.5 rounded-lg border border-neutral-200 bg-white px-4 py-2.5 hover:border-main-blue/20 transition-colors">
+                  <img src={icon} alt="" className="h-6 w-6 object-contain" />
+                  <span className="text-sm font-medium text-neutral-700">{name}</span>
                 </div>
               ))}
             </div>
@@ -570,171 +588,181 @@ function EmailCta() {
   }
 
   return (
-    <section id="cta" className="py-20">
-      <div className="mx-auto max-w-6xl px-5 lg:px-8">
-        <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-main-blue to-deep-blue px-8 py-12 text-center text-white shadow-lg sm:px-12">
+    <section id="cta" className="relative overflow-hidden bg-gradient-to-br from-[#1a3a5c] via-deep-blue to-[#1e4570] py-20">
+      <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-white/5 blur-[80px]" />
+      <div className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-white/5 blur-[60px]" />
+      <div className="relative mx-auto max-w-xl px-5 text-center lg:px-8">
 
-          {step === 'done' ? (
-            <div>
-              <h2 className="m-0 text-2xl font-bold">감사합니다!</h2>
-              <p className="m-0 mt-2 text-sm text-light-blue">남겨주신 의견을 소중히 반영해 더 좋은 서비스로 찾아뵙겠습니다.</p>
+        {step === 'done' ? (
+          <div>
+            <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-white/15">
+              <CheckCircle2 size={28} className="text-white" />
             </div>
-          ) : step === 'survey' ? (
-            <div>
-              <p className="m-0 text-xs font-semibold uppercase tracking-widest text-light-blue/60">얼리액세스 신청</p>
-              <h2 className="m-0 mt-3 text-2xl font-bold">짧은 설문으로 신청을 완료해주세요</h2>
-              <p className="m-0 mt-2 text-sm text-light-blue">약 30초면 충분해요. 답변은 더 나은 서비스를 만드는 데 직접 활용됩니다.</p>
-              <form onSubmit={handleSurvey} className="mx-auto mt-8 max-w-md text-left space-y-4">
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-light-blue">직업 / 직군</label>
-                  <select
-                    value={job}
-                    onChange={(e) => setJob(e.target.value)}
-                    className="w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white/30"
-                  >
-                    <option value="" className="text-neutral-900">선택해주세요</option>
-                    {JOB_OPTIONS.map((o) => (
-                      <option key={o} value={o} className="text-neutral-900">{o}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="mb-2 block text-xs font-medium text-light-blue">주로 쓰는 서비스 (복수 선택)</label>
-                  <div className="flex flex-wrap gap-2">
-                    {INTEGRATIONS.map(({ name, icon }) => {
-                      const checked = services.includes(name);
-                      return (
-                        <label
-                          key={name}
-                          className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1 transition-colors ${
-                            checked
-                              ? 'border-white/60 bg-white/25'
-                              : 'border-white/15 bg-white/5 hover:bg-white/10'
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            className="sr-only"
-                            checked={checked}
-                            onChange={() =>
-                              setServices((prev) =>
-                                checked ? prev.filter((s) => s !== name) : [...prev, name]
-                              )
-                            }
-                          />
-                          <img src={icon} alt="" className="h-4 w-4 object-contain" />
-                          <span className="text-xs font-medium text-white">{name}</span>
-                        </label>
-                      );
-                    })}
-                    {/* 기타 */}
-                    {(() => {
-                      const checked = services.includes('기타');
-                      return (
-                        <label
-                          className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1 transition-colors ${
-                            checked
-                              ? 'border-white/60 bg-white/25'
-                              : 'border-white/15 bg-white/5 hover:bg-white/10'
-                          }`}
-                        >
-                          <input
-                            type="checkbox"
-                            className="sr-only"
-                            checked={checked}
-                            onChange={() => {
-                              setServices((prev) =>
-                                checked ? prev.filter((s) => s !== '기타') : [...prev, '기타']
-                              );
-                              if (checked) setServiceEtc('');
-                            }}
-                          />
-                          <span className="text-xs font-medium text-white">기타</span>
-                        </label>
-                      );
-                    })()}
-                  </div>
-                  {services.includes('기타') && (
-                    <input
-                      type="text"
-                      value={serviceEtc}
-                      onChange={(e) => setServiceEtc(e.target.value)}
-                      placeholder="사용 중인 서비스를 입력해주세요"
-                      className="mt-2 w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
-                    />
-                  )}
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-light-blue">연령대</label>
-                  <div className="flex flex-wrap gap-2">
-                    {AGE_OPTIONS.map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setAge(opt)}
-                        className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
-                          age === opt
-                            ? 'border-white bg-white text-deep-blue'
-                            : 'border-white/20 text-white/80 hover:border-white/50'
+            <h2 className="m-0 text-2xl font-extrabold text-white">신청이 완료됐습니다!</h2>
+            <p className="m-0 mt-2 text-sm text-white/60">남겨주신 의견을 소중히 반영해 더 좋은 서비스로 찾아뵙겠습니다.</p>
+          </div>
+        ) : step === 'survey' ? (
+          <div>
+            <p className="m-0 text-xs font-semibold uppercase tracking-widest text-white/50">얼리액세스 신청</p>
+            <h2 className="m-0 mt-3 text-2xl font-bold text-white">짧은 설문으로 신청을 완료해주세요</h2>
+            <p className="m-0 mt-2 text-sm text-white/60">약 30초면 충분해요. 답변은 더 나은 서비스를 만드는 데 직접 활용됩니다.</p>
+            <form onSubmit={handleSurvey} className="mt-8 text-left space-y-5">
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-white/70">직업 / 직군</label>
+                <select
+                  value={job}
+                  onChange={(e) => setJob(e.target.value)}
+                  className="w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                >
+                  <option value="" className="text-neutral-800">선택해주세요</option>
+                  {JOB_OPTIONS.map((o) => (
+                    <option key={o} value={o} className="text-neutral-800">{o}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="mb-2 block text-xs font-medium text-white/70">주로 쓰는 서비스 (복수 선택)</label>
+                <div className="flex flex-wrap gap-2">
+                  {INTEGRATIONS.map(({ name, icon }) => {
+                    const checked = services.includes(name);
+                    return (
+                      <label
+                        key={name}
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1 transition-colors ${
+                          checked
+                            ? 'border-white bg-white/25 text-white'
+                            : 'border-white/20 bg-white/5 text-white/70 hover:bg-white/10'
                         }`}
                       >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
+                        <input
+                          type="checkbox"
+                          className="sr-only"
+                          checked={checked}
+                          onChange={() =>
+                            setServices((prev) =>
+                              checked ? prev.filter((s) => s !== name) : [...prev, name]
+                            )
+                          }
+                        />
+                        <img src={icon} alt="" className="h-4 w-4 object-contain" />
+                        <span className="text-xs font-medium">{name}</span>
+                      </label>
+                    );
+                  })}
+                  {(() => {
+                    const checked = services.includes('기타');
+                    return (
+                      <label
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1 transition-colors ${
+                          checked
+                            ? 'border-white bg-white/25 text-white'
+                            : 'border-white/20 bg-white/5 text-white/70 hover:bg-white/10'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          className="sr-only"
+                          checked={checked}
+                          onChange={() => {
+                            setServices((prev) =>
+                              checked ? prev.filter((s) => s !== '기타') : [...prev, '기타']
+                            );
+                            if (checked) setServiceEtc('');
+                          }}
+                        />
+                        <span className="text-xs font-medium">기타</span>
+                      </label>
+                    );
+                  })()}
                 </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-medium text-light-blue">해결하고 싶은 문제 (선택)</label>
-                  <textarea
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                    placeholder="자동화하고 싶은 업무가 있다면 알려주세요."
-                    rows={3}
-                    className="w-full resize-none rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="h-11 w-full cursor-pointer rounded-2xl bg-white text-sm font-semibold text-deep-blue transition-colors hover:bg-light-blue"
-                >
-                  신청 완료하기
-                </button>
-              </form>
-            </div>
-          ) : (
-            <div>
-              <h2 className="m-0 text-xl font-bold sm:text-2xl lg:text-3xl">지금 신청하고 가장 먼저 경험하세요</h2>
-              <p className="m-0 mx-auto mt-3 max-w-lg text-xs text-light-blue sm:text-sm">
-                얼리액세스 신청자에게 출시 소식을 가장 먼저 전달드립니다.
-              </p>
-              <form
-                onSubmit={handleSubmit}
-                className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
-              >
-                <div className="flex w-full flex-col gap-1 sm:w-80">
+                {services.includes('기타') && (
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); setEmailError(''); }}
-                    placeholder="이메일 주소를 입력하세요"
-                    className={`h-12 w-full rounded-2xl border bg-white/10 px-4 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 ${emailError ? 'border-red-400' : 'border-white/30'}`}
+                    type="text"
+                    value={serviceEtc}
+                    onChange={(e) => setServiceEtc(e.target.value)}
+                    placeholder="사용 중인 서비스를 입력해주세요"
+                    className="mt-2 w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
                   />
-                  {emailError && (
-                    <p className="m-0 px-1 text-xs text-red-300">{emailError}</p>
-                  )}
+                )}
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-white/70">연령대</label>
+                <div className="flex flex-wrap gap-2">
+                  {AGE_OPTIONS.map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setAge(opt)}
+                      className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                        age === opt
+                          ? 'border-white bg-white text-deep-blue'
+                          : 'border-white/20 text-white/70 hover:border-white/40'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
                 </div>
-                <button
-                  type="submit"
-                  disabled={step === 'loading'}
-                  className="h-12 w-full cursor-pointer rounded-2xl bg-white px-8 text-sm font-semibold text-deep-blue transition-colors hover:bg-light-blue disabled:opacity-70 sm:w-auto"
-                >
-                  {step === 'loading' ? '신청 중...' : '신청하기'}
-                </button>
-              </form>
-              <p className="m-0 mt-4 text-xs text-light-blue/70">스팸 없이, 출시 소식만 전달드립니다.</p>
-            </div>
-          )}
-        </div>
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-white/70">해결하고 싶은 문제 (선택)</label>
+                <textarea
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  placeholder="자동화하고 싶은 업무가 있다면 알려주세요."
+                  rows={3}
+                  className="w-full resize-none rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30"
+                />
+              </div>
+              <button
+                type="submit"
+                className="h-12 w-full cursor-pointer rounded-xl bg-white text-sm font-bold text-deep-blue transition-colors hover:bg-light-blue"
+              >
+                신청 완료하기
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-white/80">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-400" />
+              </span>
+              얼리액세스 신청 중
+            </span>
+            <h2 className="m-0 mt-5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">지금 신청하고<br />가장 먼저 경험하세요</h2>
+            <p className="m-0 mt-3 text-base text-white/60">
+              얼리액세스 신청자에게 출시 소식을 가장 먼저 전달드립니다.
+            </p>
+            <form
+              onSubmit={handleSubmit}
+              className="mt-8 flex flex-col items-center gap-2.5 sm:flex-row sm:justify-center"
+            >
+              <div className="flex w-full flex-col gap-1 sm:w-72">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); setEmailError(''); }}
+                  placeholder="이메일 주소를 입력하세요"
+                  className={`h-12 w-full rounded-xl border bg-white/10 px-4 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 ${emailError ? 'border-red-400' : 'border-white/20'}`}
+                />
+                {emailError && (
+                  <p className="m-0 px-1 text-xs text-red-300">{emailError}</p>
+                )}
+              </div>
+              <button
+                type="submit"
+                disabled={step === 'loading'}
+                className="h-12 w-full cursor-pointer rounded-xl bg-white px-8 text-sm font-bold text-deep-blue transition-colors hover:bg-light-blue disabled:opacity-70 sm:w-auto"
+              >
+                {step === 'loading' ? '신청 중...' : '신청하기'}
+              </button>
+            </form>
+            <p className="m-0 mt-4 text-xs text-white/40">스팸 없이, 출시 소식만 전달드립니다.</p>
+          </div>
+        )}
+
       </div>
     </section>
   );
@@ -743,12 +771,11 @@ function EmailCta() {
 /* ─── Footer ────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="border-t border-neutral-200 bg-neutral-50 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 sm:flex-row lg:px-8">
+    <footer className="border-t border-neutral-100 bg-white py-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 sm:flex-row lg:px-8">
         <div className="flex items-center gap-2">
-          <img src={symbol} alt="" className="h-6 w-6" />
-          <span className="font-logo text-lg text-deep-blue">IEUM</span>
-          <span className="text-xs text-neutral-400">beta · v0.1.0</span>
+          <img src={symbol} alt="" className="h-5 w-5 opacity-70" />
+          <span className="font-logo text-base text-deep-blue">IEUM</span>
         </div>
         <p className="m-0 text-xs text-neutral-400">© 2026 IEUM. All rights reserved.</p>
       </div>
